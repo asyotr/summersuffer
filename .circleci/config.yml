@@ -12,8 +12,18 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
-          command: jupyter nbconvert --to html Untitled.ipynb
-          name: Test
+          command: |
+            sudo pip install pipenv
+            pipenv install
+      - run:
+          command: pipenv run jupyter nbconvert --to html Untitled.ipynb
+          name: creating artefacts
+      - run:
+          command: |
+            mkdir tmp/;
+            mv Untitled.html tmp/;
+      - store_artifacts:
+          path: tmp/    
 
 workflows:
   main:
